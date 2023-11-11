@@ -1,6 +1,6 @@
 import MenuCard from "./MenuCard";
 
-export const Menu = () => {
+ const Menu = () => {
   return (
     <main className="bg-white mt-5">
       <div>
@@ -14,3 +14,5 @@ export const Menu = () => {
     </main>
   );
 }
+
+export default Menu
