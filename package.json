@@ -9,8 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@prisma/client": "^4.8.1",
     "next": "14.0.2",
     "next-seo": "^6.4.0",
+    "prisma": "^4.8.1",
     "react": "^18",
     "react-dom": "^18",
     "react-helmet": "^6.1.0"
