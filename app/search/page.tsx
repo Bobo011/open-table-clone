@@ -1,5 +1,5 @@
 import React from "react";
-import Header from "./components/Header";
+import Header from "../components/Header";
 import SearchSidebar from "./components/SearchSidebar";
 import RestaurantCard from "./components/RestaurantCard";
 import { Metadata } from "next";
