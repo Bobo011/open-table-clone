@@ -42,7 +42,7 @@ export const metadata: Metadata = {
 const Search = async ({ searchParams }: { searchParams: { city: string } }) => {
   const restaurants = await fetchRestaurantsByCity(searchParams.city);
 
-  console.log({ restaurants });
+ 
 
   return (
     <>
@@ -51,7 +51,7 @@ const Search = async ({ searchParams }: { searchParams: { city: string } }) => {
         <SearchSidebar />
         <div className="w-5/6">
           {restaurants.length ? (
-            <RestaurantCard />
+            <RestaurantCard restaurants={restaurants} />
           ) : (
             <p>Sorry, We Found No Restaurants in this Area</p>
           )}
