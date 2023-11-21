@@ -50,6 +50,7 @@ if (searchParams.price) {
     cuisine: true,
     slug: true,
     location: true,
+    reviews:true
   };
 
  
@@ -89,7 +90,11 @@ const Search = async ({ searchParams }: { searchParams: SearchParams }) => {
 
         <div className="w-5/6">
           {restaurants.length ? (
-            <RestaurantCard restaurants={restaurants} />
+            <>
+              {restaurants.map((restaurant) => (
+                <RestaurantCard key={restaurant.id} restaurant={restaurant} />
+              ))}
+            </>
           ) : (
             <p>Sorry, We Found No Restaurants in this Area</p>
           )}
