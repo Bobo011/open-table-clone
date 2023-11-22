@@ -7,9 +7,13 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "seed":"node prisma/seed.ts"
+    "seed": "node prisma/seed.ts"
   },
   "dependencies": {
+    "@emotion/css": "^11.11.2",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@mui/material": "^5.14.18",
     "@prisma/client": "^4.8.1",
     "next": "14.0.2",
     "next-seo": "^6.4.0",
