@@ -93,9 +93,10 @@ const token = await new jose.SignJWT({ email: user.email })
   .setExpirationTime("24h")
   .sign(secret);
 
-	res.status(200).json({
-    hello: token,
+return	res.status(200).json({
+  token,
   });
 }
+return res.status(404).json("Unknown endpoint");
 
 }
