@@ -2,6 +2,7 @@
 import {NextApiRequest,NextApiResponse} from 'next'
 import validator from 'validator'
 import { PrismaClient } from '@prisma/client';
+import bcrypt from 'bcrypt'
 
 
 const prisma = new PrismaClient
@@ -70,8 +71,21 @@ if(userWithEmail){
   return res.status(400).json({ errorMessage: 'Email is associated with another account'  });
 }
 
+const hashedPassword = await  bcrypt.hash(password,10)
+
+ const user = await prisma.user.create({
+   data: {
+     first_name: firstName,
+     last_name: lastName,
+     password: hashedPassword,
+     city,
+     phone,
+     email,
+   },
+ });
+
 	res.status(200).json({
-		hello:"body"
+		hello:user
 	})
 }
 
