@@ -1,42 +1,22 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import * as jose from "jose";
+
 import jwt from "jsonwebtoken";
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-export default async function me(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   const bearerToken = req.headers["authorization"] as string;
-
-  if (!bearerToken) {
-    return res.status(401).json({
-      errorMessage: "Unauthorized request ",
-    });
-  }
-
   const token = bearerToken.split(" ")[1];
-
-  if (!token) {
-    return res.status(401).json({
-      errorMessage: "Unauthorized request ",
-    });
-  }
-
-  const secret = new TextEncoder().encode(process.env.JWT_SECRET);
-
-  try {
-    await jose.jwtVerify(token, secret);
-  } catch (error) {
-    return res.status(401).json({
-      errorMessage: "Unauthorized request ",
-    });
-  }
 
   const payload = jwt.decode(token) as { email: string };
 
   if (!payload.email) {
     return res.status(401).json({
-      errorMessage: "Unauthorized request ",
+      errorMessage: "Unauthorized request",
     });
   }
 
@@ -50,9 +30,21 @@ export default async function me(req: NextApiRequest, res: NextApiResponse) {
       last_name: true,
       email: true,
       city: true,
-      phone:true
+      phone: true,
     },
   });
 
-  return res.json({ user });
+  if (!user) {
+    return res.status(401).json({
+      errorMessage: "User not found",
+    });
+  }
+
+  return res.json({
+    id: user.id,
+    firstName: user.first_name,
+    lastName: user.last_name,
+    phone: user.phone,
+    city: user.city,
+  });
 }
