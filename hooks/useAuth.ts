@@ -1,53 +1,57 @@
-import { AuthenticationContext } from '@/app/context/AuthContext';
-import axios from 'axios'
-import { useContext } from 'react';
+import { AuthenticationContext } from "@/app/context/AuthContext";
+import axios from "axios";
+import { useContext } from "react";
 
+const useAuth = () => {
+  const { data, error, loading, setAuthState } = useContext(
+    AuthenticationContext
+  );
 
-const useAuth =   () => {
+  const signin = async (
+    {
+      email,
+      password,
+    }: {
+      email: string;
+      password: string;
+    },
+    handleClose: () => void
+  ) => {
+    setAuthState({
+      data: null,
+      error: null,
+      loading: true,
+    });
 
-const {data,error,loading,setAuthState} = useContext(AuthenticationContext)
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/api/auth/signin",
+        {
+          email,
+          password,
+        }
+      );
 
+      setAuthState({
+        data: response.data,
+        error: null,
+        loading: false,
+      });
+	  handleClose();
+    } catch (error: any) {
+      setAuthState({
+        data: null,
+        error: error.response.data.errorMessage,
+        loading: true,
+      });
+    }
+  };
+  const signup = async () => {};
 
-const signin = async ({email,password}:{email:string,password:string}) => {
-setAuthState({
-	data:null,
-	error:null,
-	loading:true
-});
+  return {
+    signin,
+    signup,
+  };
+};
 
-try {
-	const response = await axios.post("http://localhost:3000/api/auth/signin",{
-		email,
-		password
-	});
-
-	
-
-	setAuthState({
-    data: response.data,
-    error: null,
-    loading: false,
-  });
-} catch (error:any) {
-	
-
-	setAuthState({
-    data: null,
-    error: error.response.data.errorMessage,
-    loading: true,
-  });
-}
-
-
-}
-const signup = async () => {}
-
-return{
-	signin,
-	signup
-}
-
-
-}
-
-export default useAuth
+export default useAuth;
