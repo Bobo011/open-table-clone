@@ -1,9 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState,} from "react";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import AuthModalInputs from "./AuthModalInputs";
+import useAuth from "@/hooks/useAuth"; 
+
 
 const style = {
   position: "absolute" as "absolute",
@@ -20,6 +22,7 @@ export default function AuthModal({ isSignIn }: { isSignIn: boolean }) {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const {signin} = useAuth()
 
   const renderContent = (signInContent: string, signUpContent: string) => {
     return isSignIn ? signInContent : signUpContent;
@@ -57,6 +60,13 @@ export default function AuthModal({ isSignIn }: { isSignIn: boolean }) {
 setDisabled(true)
 
   }, [inputs]);
+
+
+  const handleClick = ()=>{
+    if(isSignIn){
+      signin({email:inputs.email,password:inputs.password})
+    }
+  }
 
   return (
     <div>
@@ -97,6 +107,7 @@ setDisabled(true)
               <button
                 className="uppercase bg-red-600 w-full text-white p-3 rounded text-sm mb-5 disabled:bg-gray-400"
                 disabled={disabled}
+                onClick={handleClick}
               >
                 {renderContent("Sign In", "Create Account")}
               </button>
