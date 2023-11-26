@@ -4,7 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import AuthModalInputs from "./AuthModalInputs";
-import useAuth from "@/hooks/useAuth";
+import useAuth from "../../hooks/useAuth";
 import { AuthenticationContext } from "../context/AuthContext";
 import { Alert, CircularProgress } from "@mui/material";
 
@@ -107,6 +107,9 @@ export default function AuthModal({ isSignIn }: { isSignIn: boolean }) {
               <div className="upper-case font-bold text-center pb-2 border-b mb-2">
                 <p className="text-sm">
                   {renderContent("Sign In", "Create Account")}
+                </p>
+                <p>
+                  
                 </p>
               </div>
               <div className="m-auto">
