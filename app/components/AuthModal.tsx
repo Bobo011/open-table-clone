@@ -1,9 +1,7 @@
-'use client'
+"use client";
 
-import {useState} from "react";
+import { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import AuthModalInputs from "./AuthModalInputs";
 
@@ -13,38 +11,52 @@ const style = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: 400,
-  bgcolor: "background.paper", 
+  bgcolor: "background.paper",
   boxShadow: 24,
   p: 4,
 };
 
-export default function AuthModal({isSignIn}:{isSignIn:boolean}) {
+export default function AuthModal({ isSignIn }: { isSignIn: boolean }) {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const renderContent = (signInContent :string, signUpContent:string)=>{
-return isSignIn ? signInContent : signUpContent;
-
-  }
+  const renderContent = (signInContent: string, signUpContent: string) => {
+    return isSignIn ? signInContent : signUpContent;
+  };
 
   const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputs({
       ...inputs,
-      [e.target.name]:e.target.value
-    })
+      [e.target.name]: e.target.value,
+    });
   };
 
-
   const [inputs, setInputs] = useState({
-    firstName:'',
-    lastName:'',
-    email:'',
-    phone:'',
-    city:'',
-    password:'',
-
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    city: "",
+    password: "",
   });
+
+  const [disabled, setDisabled] = useState(true);
+
+  useEffect(() => {
+    if (isSignIn) {
+      if (inputs.password && inputs.email) {
+       return setDisabled(false);
+      }
+    }else {
+      if(inputs.firstName && inputs.lastName && inputs.email && inputs.city && inputs.phone && inputs.password){
+        return setDisabled(false);
+      }
+    }
+
+setDisabled(true)
+
+  }, [inputs]);
 
   return (
     <div>
@@ -82,7 +94,10 @@ return isSignIn ? signInContent : signUpContent;
                 handleChangeInput={handleChangeInput}
                 isSignIn={isSignIn}
               />
-              <button className="uppercase bg-red-600 w-full text-white p-3 rounded text-sm mb-5 disabled:bg-gray-400 ">
+              <button
+                className="uppercase bg-red-600 w-full text-white p-3 rounded text-sm mb-5 disabled:bg-gray-400"
+                disabled={disabled}
+              >
                 {renderContent("Sign In", "Create Account")}
               </button>
             </div>
