@@ -1,4 +1,3 @@
-import NavBar from "@/app/components/NavBar";
 import React from "react";
 import {
   RestaurantNavbar,

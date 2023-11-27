@@ -2,7 +2,7 @@
 const Images = ({images}:{images:string[]}) => {
   return (
     <div>
-      <h1 className="font-bold text-3xl mt-10 mb-7 border-b pb-5">{images.length} {images.length>1 ? 'photos':'photo'}</h1>
+      <h1 className="font-bold text-3xl mt-10 mb-7 border-b pb-5">{images.length} {images.length > 1 ? 'photos':'photo'}</h1>
       <div className="flex flex-wrap">
         {images.map((image) => (
           <img
