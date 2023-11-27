@@ -1,14 +1,11 @@
-import React from 'react'
+export default function Header({ name }: { name: string }) {
+  const renderTitle = () => {
+    const nameArray = name.split("-");
 
-const Header = ({name}:{name:string}) => {
+    nameArray[nameArray.length - 1] = `(${nameArray[nameArray.length - 1]})`;
 
-const renderTitle = ()=>{
-  const nameArray = name.split('-')
-  nameArray[nameArray.length - 1] = `(${nameArray[nameArray.length - 1]})`;
-
-  return nameArray.join(' ')
-}
-
+    return nameArray.join(" ");
+  };
 
   return (
     <div className="h-96 overflow-hidden">
@@ -20,5 +17,3 @@ const renderTitle = ()=>{
     </div>
   );
 }
-
-export default Header

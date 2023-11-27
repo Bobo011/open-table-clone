@@ -1,7 +1,6 @@
-import Link from 'next/link';
-import React from 'react'
+import Link from "next/link";
 
-const RestaurantNavbar = ({slug}:{slug:string}) => {
+export default function RestaurantNavBar({ slug }: { slug: string }) {
   return (
     <nav className="flex text-reg border-b pb-2">
       <Link href={`/restaurant/${slug}`} className="mr-7">
@@ -13,5 +12,3 @@ const RestaurantNavbar = ({slug}:{slug:string}) => {
     </nav>
   );
 }
-
-export default RestaurantNavbar

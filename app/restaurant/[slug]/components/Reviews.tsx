@@ -1,8 +1,7 @@
-import { Review } from '@prisma/client';
-import React from 'react'
-import ReviewCard from './ReviewCard';
+import { Review } from "@prisma/client";
+import ReviewCard from "./ReviewCard";
 
-const Reviews = ({reviews}:{reviews:Review[]}) => {
+export default function Reviews({ reviews }: { reviews: Review[] }) {
   return (
     <div>
       <h1 className="font-bold text-3xl mt-10 mb-7 borber-b pb-5">
@@ -17,5 +16,3 @@ const Reviews = ({reviews}:{reviews:Review[]}) => {
     </div>
   );
 }
-
-export default Reviews
