@@ -1,37 +1,32 @@
-import { Cuisine, Location, PRICE } from '@prisma/client';
-import Link from 'next/link';
-import React from 'react'
+import { Cuisine, Location, PRICE } from "@prisma/client";
+import Link from "next/link";
 
-
-
-
-const SearchSidebar = ({
+export default function SearchSideBar({
   locations,
   cuisines,
-  searchParams
+  searchParams,
 }: {
   locations: Location[];
   cuisines: Cuisine[];
   searchParams: { city?: string; cuisine?: string; price?: PRICE };
-}) => {
-
-const prices = [
-  {
-    price: PRICE.CHEAP,
-    label: "$",
-    className: "border w-full text-reg font-light text-center rounded-l p-2",
-  },
-  {
-    price: PRICE.REGULAR,
-    label: "$$",
-    className: "border w-full text-reg font-light text-center  p-2",
-  },
-  {
-    price: PRICE.EXPENSIVE,
-    label: "$$$",
-    className: "border w-full text-reg font-light rounded-r text-center  p-2",
-  },
-];
+}) {
+  const prices = [
+    {
+      price: PRICE.CHEAP,
+      label: "$",
+      className: "border w-full text-reg text-center font-light rounded-l p-2",
+    },
+    {
+      price: PRICE.REGULAR,
+      label: "$$",
+      className: "border w-full text-reg text-center font-light p-2",
+    },
+    {
+      price: PRICE.EXPENSIVE,
+      label: "$$$",
+      className: "border w-full text-reg text-center font-light rounded-r p-2",
+    },
+  ];
 
   return (
     <div className="w-1/5">
@@ -46,8 +41,8 @@ const prices = [
                 city: location.name,
               },
             }}
-            key={location.id}
             className="font-light text-reg capitalize"
+            key={location.id}
           >
             {location.name}
           </Link>
@@ -64,8 +59,8 @@ const prices = [
                 cuisine: cuisine.name,
               },
             }}
-            key={cuisine.id}
             className="font-light text-reg capitalize"
+            key={cuisine.id}
           >
             {cuisine.name}
           </Link>
@@ -74,14 +69,13 @@ const prices = [
       <div className="mt-3 pb-4">
         <h1 className="mb-2">Price</h1>
         <div className="flex">
-          {prices.map(({price,label,className}) => (
+          {prices.map(({ price, label, className }) => (
             <Link
-            key={price}
               href={{
                 pathname: "/search",
                 query: {
                   ...searchParams,
-                  price: price,
+                  price,
                 },
               }}
               className={className}
@@ -89,12 +83,8 @@ const prices = [
               {label}
             </Link>
           ))}
-
-         
         </div>
       </div>
     </div>
   );
-};
-
-export default SearchSidebar
+}
