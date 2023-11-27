@@ -1,9 +1,12 @@
-import React from "react";
-import { Header } from "./components";
+import Header from "./components/Header";
 
-const RestaurantLayout = ({ children,params }: { children: React.ReactNode;
-params:{slug:string}
-}) => {
+export default function RestaurantLayout({
+  children,
+  params,
+}: {
+  children: React.ReactNode;
+  params: { slug: string };
+}) {
   return (
     <main>
       <Header name={params.slug} />
@@ -12,6 +15,4 @@ params:{slug:string}
       </div>
     </main>
   );
-};
-
-export default RestaurantLayout;
+}

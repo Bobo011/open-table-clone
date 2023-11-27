@@ -1,17 +1,15 @@
-'use client'
-import React from 'react'
+"use client";
+
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-
-const SearchBar = () => {
-	const router = useRouter();
-
+export default function SearchBar() {
+  const router = useRouter();
   const [location, setLocation] = useState("");
   return (
     <div className="text-left text-lg py-3 m-auto flex justify-center">
       <input
-        className="rounded mr-3 p-2 w-[450px]"
+        className="rounded  mr-3 p-2 w-[450px]"
         type="text"
         placeholder="State, city or town"
         value={location}
@@ -22,7 +20,7 @@ const SearchBar = () => {
         onClick={() => {
           if (location === "") return;
           router.push(`/search?city=${location}`);
-          setLocation('')
+          setLocation("");
         }}
       >
         Let's go
@@ -30,5 +28,3 @@ const SearchBar = () => {
     </div>
   );
 }
-
-export default SearchBar

@@ -4,7 +4,6 @@ import axios from "axios";
 import { getCookie } from "cookies-next";
 import React, { useState, createContext, useEffect } from "react";
 
-
 interface User {
   id: number;
   firstName: string;
@@ -80,7 +79,6 @@ export default function AuthContext({
       });
     }
   };
-
 
   useEffect(() => {
     fetchUser();
