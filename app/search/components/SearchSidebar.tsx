@@ -79,6 +79,7 @@ export default function SearchSideBar({
                 },
               }}
               className={className}
+              key={price}
             >
               {label}
             </Link>
