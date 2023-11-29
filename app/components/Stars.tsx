@@ -1,3 +1,5 @@
+'use client'
+
 import React from "react";
 import fullStar from "../../public/icons/full-star.png";
 import halfStar from "../../public/icons/half-star.png";
@@ -29,7 +31,7 @@ export default function Stars({
     }
 
     return stars.map((star) => {
-      return <Image src={star} alt="" className="w-4 h-4 mr-1" />;
+      return <Image key={star.height} src={star} alt="" className="w-4 h-4 mr-1" />;
     });
   };
 
