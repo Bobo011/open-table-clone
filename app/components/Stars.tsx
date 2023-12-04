@@ -7,6 +7,7 @@ import emptyStar from "../../public/icons/empty-star.png";
 import Image from "next/image";
 import { Review } from "@prisma/client";
 import  {calculateReviewRatingAverage}  from "../../utils/calculateReviewRatingAverage";
+import { v4 as uuidv4 } from "uuid";
 
 export default function Stars({
   reviews,
@@ -31,7 +32,11 @@ export default function Stars({
     }
 
     return stars.map((star) => {
-      return <Image key={star.height} src={star} alt="" className="w-4 h-4 mr-1" />;
+      const uniqueKey = uuidv4();
+
+      return (
+        <Image key={uniqueKey} src={star} alt="" className="w-4 h-4 mr-1" />
+      );
     });
   };
 

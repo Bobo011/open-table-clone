@@ -17,6 +17,7 @@ export default function useAvailabilities() {
     day: string;
     time: string;
   }) => {
+   
     setLoading(true);
 
     try {

@@ -1,22 +1,22 @@
-'use client'
-import React, { useState } from 'react'
-import { partySize, times } from "../../../../data";
-import DatePicker from 'react-datepicker'
-
-
+"use client";
+import React, { useState } from "react";
+import { partySize as partySizes, times } from "../../../../data";
+import DatePicker from "react-datepicker";
+import useAvailabilities from "../../../../hooks/useAvailabilities";
 
 const ReservationCard = ({
   openTime,
-  closeTime
-}:{
-  openTime:string,
-  closeTime:string
+  closeTime,
+  slug
+}: {
+  openTime: string;
+  closeTime: string;
+  slug:string;
 }) => {
-
   const filterTimeByRestaurantOpenWindow = () => {
     const timesWithinWindow: typeof times = [];
 
-    let isWithinWindow = false; 
+    let isWithinWindow = false;
 
     times.forEach((time) => {
       if (time.time === openTime) {
@@ -33,25 +33,41 @@ const ReservationCard = ({
     return timesWithinWindow;
   };
 
-const [selectedDate,setSelectedDate] = useState<Date | null>(new Date())
+  const { data, loading, error, fetchAvailabilities } = useAvailabilities();
+  const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
+  const [time,setTime] = useState(openTime)
+  const [partySize, setPartySize] = useState('2');
+  const [day, setDay] = useState(new Date().toISOString().split("T")[0]);
 
 
-const handleChangeDate = (date: Date | null)=>{
-if(date){
- return setSelectedDate(date)
-}
-return setSelectedDate(null)
-}
+
+  const handleChangeDate = (date: Date | null) => {
+    if (date) {
+
+      setDay(date.toISOString().split('T')[0])
+      return setSelectedDate(date);
+    }
+    return setSelectedDate(null);
+  };
+
+  const handleClick = ()=>{
+    fetchAvailabilities({
+      slug,
+      day,
+      time,
+      partySize,
+    })
+  }
 
   return (
     <div className="fixed w-[15%] bg-white rounded p-3 shadow">
       <div className="text-center border-b pb-2 font-bold">
-        <h4 className="mr-7 text-lg">Make a Reservation</h4>
+        <h4 className="mr-7 text-lg">Make a Reservation </h4>
       </div>
       <div className="my-3 flex flex-col">
         <label htmlFor="">Party size</label>
-        <select name="" className="py-3 border-b font-light" id="">
-          {partySize.map((size) => (
+        <select name="" className="py-3 border-b font-light" id="" value={partySize} onChange={(e)=>setPartySize(e.target.value)}>
+          {partySizes.map((size) => (
             <option key={size.value} value={size.value}>
               {size.label}
             </option>
@@ -71,7 +87,15 @@ return setSelectedDate(null)
         </div>
         <div className="flex flex-col w-[48%]">
           <label htmlFor="">Time</label>
-          <select name="" id="" className="py-3 border-b font-light">
+          <select
+            name=""
+            id=""
+            className="py-3 border-b font-light"
+            value={time}
+            onChange={(e) => {
+              setTime(e.target.value);
+            }}
+          >
             {filterTimeByRestaurantOpenWindow().map((time) => (
               <option key={time.displayTime} value={time.time}>
                 {time.displayTime}
@@ -81,12 +105,15 @@ return setSelectedDate(null)
         </div>
       </div>
       <div className="mt-5">
-        <button className="bg-red-600 rounded w-full px-4 text-white font-bold h-16">
+        <button
+          className="bg-red-600 rounded w-full px-4 text-white font-bold h-16"
+          onClick={handleClick}
+        >
           Find a Time
         </button>
       </div>
     </div>
   );
-}
+};
 
-export default ReservationCard
+export default ReservationCard;
