@@ -60,8 +60,68 @@ bookings.forEach(booking => {
   },{})
 });
 
-return res.json({ searchTimes, bookings, bookingTablesObj });
+const restaurant = await prisma.restaurant.findUnique({
+  where:{
+    slug
+  },
+  select:{
+    tables:true,
+    open_time:true,
+    close_time:true
+  }
+})
+
+if(!restaurant){
+  return res.status(400).json({
+    errorMessage: "Invalid data provided",
+  });
+}
+
+const tables = restaurant.tables
+
+
+const searchTimesWithTables = searchTimes.map(searchTime =>{
+  return {
+    date: new Date(`${day}T${searchTime}`),
+    time: searchTime,
+    tables
+  }
+})
+
+searchTimesWithTables.forEach(t=>{
+  t.tables = t.tables.filter(table => {
+    if(bookingTablesObj[t.date.toISOString()]){
+      if(bookingTablesObj[t.date.toISOString()][table.id])return false
+    }
+    return true
+  })
+})
+
+const availabilities = searchTimesWithTables.map(t=>{
+  const sumSeats = t.tables.reduce((sum,table)=>{
+    return sum + table.seats
+  },0)
+
+  return {
+    time:t.time,
+    available:sumSeats>= parseInt(partySize)
+  }
+}).filter(availability=>{
+  const timeIsAfterOpeningHour =
+    new Date(`${day}T${availability.time}`) >=
+    new Date(`${day}T${restaurant.open_time}`); 
+    const timeIsBeforeClosingHour =
+      new Date(`${day}T${availability.time}`) <=
+      new Date(`${day}T${restaurant.close_time}`);
+
+      return timeIsAfterOpeningHour && timeIsBeforeClosingHour
+})
+
+
+return res.json({
+  availabilities,
+});
 
 }
 
-//http://localhost:3000/api/restaurant/last-train-to-delhi-ottawa/availability?day=2023-05-27&time=14:00:00.000Z&partySize=4
+//http://localhost:3000/api/restaurant/vivaan-fine-indian-cuisine-ottawa/availability?day=2023-05-27&time=14:00:00.000Z&partySize=4
