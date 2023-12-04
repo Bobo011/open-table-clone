@@ -118,9 +118,9 @@ const availabilities = searchTimesWithTables.map(t=>{
 })
 
 
-return res.json({
+return res.json(
   availabilities,
-});
+);
 
 }
 
